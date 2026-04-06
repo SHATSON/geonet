@@ -1,0 +1,62 @@
+# configs/ablations.yaml
+# Ablation study configuration — paper Table 3 (Section 7.4)
+# All variants share the same hyperparameters as geonet_wordnet.yaml.
+# The --model CLI flag selects the variant.
+#
+# Usage:
+#   python train.py --config configs/ablations.yaml --model geonet_no_hel --seed 0
+#   python train.py --config configs/ablations.yaml --model geonet_no_gaa --seed 0
+#   python train.py --config configs/ablations.yaml --model geonet_no_rom --seed 0
+#   python train.py --config configs/ablations.yaml --model geonet_fixed_c --seed 0
+#   python train.py --config configs/ablations.yaml --model geonet_eucl    --seed 0
+
+task: graph_link
+
+# Default model — overridden by --model flag
+model:
+  name: geonet             # default; overridden per-variant
+  in_dim: 128
+  hidden_dim: 64
+  out_dim: 1
+  num_layers: 3
+  num_heads: 4
+  c_init: -1.0
+  learn_c: true            # set to false for geonet_fixed_c
+  dropout: 0.1
+
+dataset:
+  name: wordnet_mammals
+  path: data/wordnet
+  batch_size: 256
+  split_seed: 42
+
+optimizer:
+  lr_eucl: 1.0e-3
+  lr_riem: 3.0e-3
+  weight_decay: 1.0e-4
+
+training:
+  epochs: 500
+  warmup_epochs: 10
+  patience: 50
+  grad_clip: 1.0
+
+evaluation:
+  primary_metric: MAP
+
+# Per-variant overrides used by run_ablations.sh:
+variants:
+  geonet_no_hel:
+    model.name: geonet_no_hel
+  geonet_no_gaa:
+    model.name: geonet
+    model.use_gaa: false
+  geonet_no_rom:
+    model.name: geonet
+    training.use_riemannian_opt: false
+  geonet_fixed_c:
+    model.name: geonet
+    model.learn_c: false
+    model.c_init: -1.0
+  geonet_eucl:
+    model.name: geonet_eucl

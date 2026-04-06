@@ -1,0 +1,38 @@
+# configs/geonet_ogbn_arxiv.yaml
+# GeoNet experiment configuration — ogbn-arxiv node classification
+# Paper Section 6.1, Table 2
+# Reproduce: python train.py --config configs/geonet_ogbn_arxiv.yaml --seed 0
+
+task: graph_node
+
+model:
+  name: geonet
+  in_dim: 128           # ogbn-arxiv node feature dimension (paper2vec)
+  hidden_dim: 64
+  out_dim: 40           # 40 subject classes
+  num_layers: 3
+  num_heads: 4
+  c_init: -1.0
+  learn_c: true
+  dropout: 0.1
+
+dataset:
+  name: ogbn_arxiv
+  batch_size: 256
+  split_seed: 42        # OGB official split
+
+optimizer:
+  lr_eucl: 1.0e-3
+  lr_riem: 3.0e-3
+  weight_decay: 1.0e-4
+
+training:
+  epochs: 500
+  warmup_epochs: 10
+  patience: 50
+  grad_clip: 1.0
+
+evaluation:
+  primary_metric: accuracy
+  distortion_samples: 10000
+  distortion_seed: 42

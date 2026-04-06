@@ -1,0 +1,42 @@
+# configs/geonet_cifar100.yaml
+# GeoNet experiment configuration — CIFAR-100 image classification
+# Paper Section 6.1, Section 7.3
+# Reproduce: python train.py --config configs/geonet_cifar100.yaml --seed 0
+
+task: image
+
+model:
+  name: geonet
+  num_classes: 100
+  num_superclass: 20    # CIFAR-100 coarse labels for auxiliary loss
+  hidden_dim: 64
+  num_layers: 3
+  num_heads: 4
+  c_init: -1.0
+  learn_c: true
+  dropout: 0.1
+  backbone: resnet101
+  pretrained: true
+
+dataset:
+  name: cifar100
+  batch_size: 256
+  num_workers: 4
+  # Standard CIFAR-100 normalisation
+  mean: [0.5071, 0.4867, 0.4408]
+  std:  [0.2675, 0.2565, 0.2761]
+
+optimizer:
+  lr_eucl: 1.0e-3
+  lr_riem: 3.0e-3
+  weight_decay: 1.0e-4
+
+training:
+  epochs: 500
+  warmup_epochs: 10
+  patience: 50
+  grad_clip: 1.0
+
+evaluation:
+  primary_metric: top1_accuracy
+  hp_k: 5               # for HP@5 hierarchical precision

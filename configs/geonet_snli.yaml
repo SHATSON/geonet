@@ -1,0 +1,38 @@
+# configs/geonet_snli.yaml
+# GeoNet experiment configuration — SNLI / MultiNLI NLI
+# Paper Section 6.1, Section 7.2
+# For MultiNLI: python train.py --config configs/geonet_snli.yaml --dataset.name=multinli
+
+task: nli
+
+model:
+  name: geonet
+  bert_model: bert-large-uncased
+  hidden_dim: 64
+  num_classes: 3        # Entailment / Neutral / Contradiction
+  num_layers: 3
+  num_heads: 4
+  c_init: -1.0
+  learn_c: true
+  dropout: 0.1
+  freeze_bert: false    # fine-tune full BERT
+
+dataset:
+  name: snli
+  bert_model: bert-large-uncased
+  max_length: 128       # max token length for premise/hypothesis
+  batch_size: 64        # reduced for BERT memory requirements
+
+optimizer:
+  lr_eucl: 1.0e-3
+  lr_riem: 3.0e-3
+  weight_decay: 1.0e-4
+
+training:
+  epochs: 500
+  warmup_epochs: 10
+  patience: 50
+  grad_clip: 1.0
+
+evaluation:
+  primary_metric: accuracy

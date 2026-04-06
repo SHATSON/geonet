@@ -1,0 +1,39 @@
+# configs/geonet_wordnet.yaml
+# GeoNet experiment configuration — WordNet-Mammals link prediction
+# Paper Section 6.1, Table 2
+# Reproduce: python train.py --config configs/geonet_wordnet.yaml --seed 0
+
+task: graph_link
+
+model:
+  name: geonet
+  in_dim: 128           # WordNet entity embedding dimension
+  hidden_dim: 64        # paper Section 6.4
+  out_dim: 1            # link prediction score
+  num_layers: 3         # paper Section 6.4
+  num_heads: 4          # paper Section 5.4
+  c_init: -1.0          # initial curvature, paper Section 5.2
+  learn_c: true         # learnable curvature (GeoNet-LC variant)
+  dropout: 0.1          # paper Appendix C Table C1
+
+dataset:
+  name: wordnet_mammals
+  path: data/wordnet
+  batch_size: 256
+  split_seed: 42        # fixed split seed for reproducibility
+
+optimizer:
+  lr_eucl: 1.0e-3       # Euclidean AdamW LR, paper Section 6.4
+  lr_riem: 3.0e-3       # Riemannian Adam LR, paper Section 6.4
+  weight_decay: 1.0e-4  # paper Appendix C Table C1
+
+training:
+  epochs: 500
+  warmup_epochs: 10
+  patience: 50          # early stopping patience
+  grad_clip: 1.0
+
+evaluation:
+  primary_metric: MAP   # used for early stopping and Table 2
+  distortion_samples: 10000
+  distortion_seed: 42

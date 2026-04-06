@@ -1,0 +1,50 @@
+# GeoNet requirements — pinned for reproducibility (paper Section 6.4)
+# Python 3.11, CUDA 12.1
+
+torch==2.3.0
+torchvision==0.18.0
+torchaudio==2.3.0
+
+# Riemannian manifold operations
+geoopt==0.5.0
+
+# Graph learning
+torch-geometric==2.5.3
+torch-scatter==2.1.2
+torch-sparse==0.6.18
+ogb==1.3.6
+
+# NLP
+transformers==4.41.2
+datasets==2.19.1
+tokenizers==0.19.1
+
+# Scientific computing
+numpy==1.26.4
+scipy==1.13.0
+scikit-learn==1.4.2
+pandas==2.2.2
+
+# Experiment tracking & config
+pyyaml==6.0.1
+omegaconf==2.3.0
+wandb==0.17.0
+tensorboard==2.17.0
+
+# Reproducibility
+hydra-core==1.3.2
+python-dotenv==1.0.1
+
+# Notebooks
+jupyter==1.0.0
+ipykernel==6.29.4
+matplotlib==3.9.0
+seaborn==0.13.2
+
+# Testing
+pytest==8.2.2
+pytest-cov==5.0.0
+
+# Utilities
+tqdm==4.66.4
+rich==13.7.1
