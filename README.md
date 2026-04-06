@@ -169,7 +169,7 @@ python scripts/reproduce/download_checkpoints.py --verify
 @article{[author]2026geonet,
   title   = {Hyperbolic and Riemannian Geometry as Inductive Biases for
              Deep Neural Network Architecture Design},
-  author  = {[Author Name]},
+  author  = {Pamba Shatson Fasco},
   journal = {Journal of Machine Learning Research},
   year    = {2026},
   volume  = {XX},
